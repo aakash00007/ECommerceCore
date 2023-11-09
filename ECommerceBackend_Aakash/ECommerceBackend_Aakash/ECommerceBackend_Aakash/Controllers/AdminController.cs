@@ -29,7 +29,6 @@ namespace ECommerceBackend_Aakash.Controllers
             _productGenericRepository = productGenericRepository;
             _categoryGenericRepository = categoryGenericRepository;
             _productRepository = productRepository;
-
         }
 
         [HttpGet]
