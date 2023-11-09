@@ -81,7 +81,7 @@ namespace ECommerceBackend_Aakash.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500);
+                    return StatusCode(500,ex.Message);
                 }
             }
             return BadRequest();
