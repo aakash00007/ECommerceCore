@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ECommerceFrontend</title>
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ECommerceFrontend_Aakash.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#ece1f7">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">ECommerce</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        
+                    </ul>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Index"
+                                       title="Welcome">Welcome @User.Identity.Name!</a>
+                                </li>
+
+                                @if (User.IsInRole("User"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white mx-2 btn btn-primary" asp-controller="User" asp-action="Index">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark mx-2 btn btn-warning" asp-controller="Cart" asp-action="Index">Cart</a>
+                                    </li>
+                                }
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white mx-2 btn btn-primary" asp-controller="Admin" asp-action="Index">Products</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-white mx-2 btn btn-success" asp-controller="Admin" asp-action="GetCategories">Categories</a>
+                                    </li>
+                                }
+
+                            </ul>
+                        }
+
+                        
+                    }
+
+                    <partial name="_LoginPartial"/>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @{
+                    var errorMsg = TempData["Error"]?.ToString();
+                    var successMsg = TempData["Success"]?.ToString();
+                }
+                @if (!String.IsNullOrWhiteSpace(successMsg))
+                {
+                    <div class="alert alert-success">
+                        <b>Success: </b>@successMsg
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+                    </div>
+                }
+                else if (!String.IsNullOrWhiteSpace(errorMsg))
+                {
+                    <div class="alert alert-danger">
+                        <b>Error: </b>@errorMsg
+                        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="close"></button>
+                    </div>
+                }
+                @RenderBody()
+            </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - ECommerceFrontend
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\ECommerceFrontend_Aakash.props" />
+</Project>

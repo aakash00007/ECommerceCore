@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3 class="text-center  my-3">Products Available</h3>
+<form asp-action="Index" asp-controller="User" method="GetAllProducts">
+    <div class="d-flex justify-content-center">
+        <input class="mx-2" type="search" name="search" value="@ViewBag.Search" placeholder="Enter title or category" />
+        <input type="submit" value="Search" class="btn btn-dark" />
+    </div>
+</form>
+
+<div class="container">
+    <div class="row justify-content-center">
+        @foreach (var item in Model)
+        {
+            <div class="card box-shadow col-md-4 mx-5 my-3 p-0" style="width: 17rem; border-top-left-radius:25px; border-top-right-radius:25px">
+                <img src="@item.Image" style="height:220px; width:auto;" class="card-img-top img-fluid" alt="Service Image">
+                <div class="card-body">
+                    <h5 class="card-title">@item.ProductName</h5>
+                    <p class="card-text">@item.Description</p>
+                    <p class="card-text"><strong>Price: @item.Price/-</strong></p>
+                    <p class="card-text"><strong>Quantity: @item.Quantity</strong></p>
+                    <a class="btn btn-info text-white" asp-controller ="User" asp-action="ViewProduct" asp-route-id ="@item.ProductId" >View Product</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{
+    int totalPages = ViewBag.PageNo;
+    int currPage = ViewBag.CurrentPage;
+    var nextDis = currPage >= totalPages ? "disabled" : "";
+    var prevDis = currPage == 1 ? "disabled" : "";
+}
+<div class="d-flex justify-content-center">
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link btn @prevDis" href="@Url.Action("Index","User",new {pageNo = currPage-1,search=ViewBag.Search})" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item"><a class="page-link" href="@Url.Action("Index","User",new {pageNo = i,search=ViewBag.Search})">@i</a></li>
+        }
+
+        <li class="page-item">
+            <a class="page-link btn @nextDis" @ViewBag.Status href="@Url.Action("Index","User",new {pageNo = currPage+1,search=ViewBag.Search})" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

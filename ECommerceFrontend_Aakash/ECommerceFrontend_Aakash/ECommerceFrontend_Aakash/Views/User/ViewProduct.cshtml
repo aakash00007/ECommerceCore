@@ -1,0 +1,36 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "View Product";
+}
+@if (ViewData["Error"] != null)
+{
+    <h1 class="text-center"> @ViewData["Error"]</h1>
+}
+else
+{
+    <h3 class="text-center my-3">Product Details</h3>
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+
+            <div class="card box-shadow col-md-4 mx-5 my-3 p-0" style="width: 20rem; border-top-left-radius:25px; border-top-right-radius:25px">
+                <img src="@Model.Image" style="height:275px; width:auto;" class="card-img-top img-fluid" alt="Service Image">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.ProductName</h5>
+                    <p class="card-text"><strong>Description: </strong>@Model.Description</p>
+                   
+                    <p class="card-text"><strong>Price: @Model.Price/-</strong></p>
+
+                    <form  asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" asp-for="ProductId" value="@Model.ProductId"/>
+                        <input class="form-control" type="number" asp-for="Quantity"  value="1" min="1" />
+                        <input type="submit" class="btn btn-success my-2" value="AddToCart">
+                    </form>
+                    <a class="btn btn-secondary text-white mb-2" asp-action="Index">Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

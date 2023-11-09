@@ -1,0 +1,73 @@
+﻿@model ProductDTO
+
+@{
+    ViewData["Title"] = "Edit";
+    string data = (string)ViewBag.Category;
+    List<Category> categories = JsonConvert.DeserializeObject<List<Category>>(data);
+}
+@if (ViewData["Error"] != null)
+{
+    <h1 class="text-center text-danger">@ViewData["Error"]</h1>
+}
+else
+{
+    <h3 class="text-center my-3">Edit Product</h3>
+
+    <hr />
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <form asp-action="EditProduct" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="ProductId" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="ProductName" class="control-label"></label>
+                        <input asp-for="ProductName" class="form-control" />
+                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Image" class="control-label"></label>
+                        <input asp-for="Image" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label">Service Type</label>
+                        <select asp-for="CategoryId" class="form-control" asp-items='new SelectList(categories,"CategoryId","CategoryName",Model.CategoryId.ToString())'>
+                            <option value="0">Select Category</option>
+
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Submit" class="btn btn-primary my-3" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    @section Scripts {
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+    }
+}
