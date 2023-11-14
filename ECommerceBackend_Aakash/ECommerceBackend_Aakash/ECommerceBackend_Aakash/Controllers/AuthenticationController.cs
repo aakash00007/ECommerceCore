@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ECommerce.DAL.Models.DTOModels;
 using ECommerce.DAL.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
